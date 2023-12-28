@@ -15,6 +15,7 @@ const folder = {
         { name: "Berries" },
         { name: "Oranges" },
         { name: "Pears" },
+        { name: "Portfolio" },
       ],
     },
     {

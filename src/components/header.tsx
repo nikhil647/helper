@@ -14,26 +14,20 @@ export default function App() {
     <Navbar position="static">
       <NavbarBrand>
         <AcmeLogo />
-        <p className="font-bold text-inherit">PIC</p>
+        <p className="font-bold text-inherit">Pista</p>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link href="#" aria-current="page">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
+      
       <NavbarContent justify="end">
+      <NavbarItem>
+          <Link color="warning" href="#">
+            Profile
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link color="foreground" href="#" aria-current="page">
+            About Us
+          </Link>
+        </NavbarItem>
         <NavbarItem className="hidden lg:flex">
           <Link href="#">Login</Link>
         </NavbarItem>

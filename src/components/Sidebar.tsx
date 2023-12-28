@@ -26,6 +26,10 @@ const Map = [
     pageTitle: "Notes",
     route: "/notes",
   },
+  {
+    pageTitle: "Portfolio",
+    route: "/portfolio",
+  }
 ];
 
 const Sidebar = () => {
