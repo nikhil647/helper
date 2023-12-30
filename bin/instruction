@@ -1,0 +1,6 @@
+to start postgres in docker environment.
+npx prisma migrate dev
+docker run --rm -p 5432:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres
+
+once you made changes in schema.prisa file run this command again.
+npx prisma migrate dev

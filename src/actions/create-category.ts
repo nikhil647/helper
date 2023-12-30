@@ -1,12 +1,13 @@
 "use server";
 
-import type { Topic } from "@prisma/client";
+// import type { Topic } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { auth } from "@/auth";
 import { db } from "@/db";
 import paths from "@/paths";
+import { prisma } from "@/lib/prisma";
 
 const createCategorySchema = z.object({
   name: z
@@ -49,7 +50,19 @@ export async function createCategory(
   //       },
   //     };
   //   }
-  console.log("Into the server action");
+  const category = await prisma.category.create({
+    data: {
+      categoryName: "Array",
+      description: "simple ds",
+    },
+  });
+  // const user = await prisma.user.findFirst({
+  //   where: {
+  //     email: 'test@test.com'
+  //   }
+  // })
+  console.log("Into the server action", category);
+
   return new Promise((resolve) => {
     name: "login";
   });

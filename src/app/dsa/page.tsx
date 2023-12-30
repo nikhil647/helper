@@ -48,8 +48,8 @@ const TreeNode = ({ node }: { node: any }) => {
 
   return (
     <div>
-      <div onClick={toggleOpen}>
-        <div className="flex flex-row">
+      <div className="flex justify-between px-3 py-1 bottom-1">
+        <div className="flex flex-row flex-1" onClick={toggleOpen}>
           <Image
             className={`my-1 mx-1 ${
               isOpen ? "rotate-90 filter-green" : "filter-yellow"
@@ -62,6 +62,7 @@ const TreeNode = ({ node }: { node: any }) => {
           />{" "}
           {node.name}
         </div>
+        <div> Flex End </div>
       </div>
       {isOpen && (
         <div style={{ marginLeft: "20px" }}>
