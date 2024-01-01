@@ -86,3 +86,7 @@ header {
   filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(57deg)
     brightness(263%) contrast(54%);
 }
+
+.textAreaCustom > div {
+  height: 70vh !important;
+}

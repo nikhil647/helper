@@ -1,3 +1,4 @@
+"use client";
 import {
   ModalHeader,
   ModalBody,
@@ -9,13 +10,19 @@ import {
 import { useFormState } from "react-dom";
 import * as actions from "@/actions";
 import FormButton from "@/components/common/form-button";
+import { useEffect } from "react";
 
 export default function AddCategory({ onClose }: any) {
   const [formState, action] = useFormState(actions.createCategory, {
     errors: {},
+    isSuccess: false,
   });
-  console.log("formState -->", formState);
-  console.log("action -->", action);
+
+  useEffect(() => {
+    if (formState.isSuccess) {
+      onClose();
+    }
+  }, [formState]);
 
   return (
     <>
@@ -23,25 +30,24 @@ export default function AddCategory({ onClose }: any) {
         <ModalHeader className="flex flex-col gap-1">Add Category</ModalHeader>
         <ModalBody>
           <div className="flex flex-col gap-4 p-4">
-            <h3 className="text-lg">Create a Topic</h3>
             <Input
               name="name"
               label="Name"
               labelPlacement="outside"
               placeholder="Name"
-              isInvalid={!!formState.errors.name}
-              errorMessage={formState.errors.name?.join(", ")}
+              isInvalid={!!formState?.errors?.name}
+              errorMessage={formState?.errors?.name?.join(", ")}
             />
             <Textarea
               name="description"
               label="Description"
               labelPlacement="outside"
               placeholder="Describe your topic"
-              isInvalid={!!formState.errors.description}
-              errorMessage={formState.errors.description?.join(", ")}
+              isInvalid={!!formState?.errors.description}
+              errorMessage={formState?.errors.description?.join(", ")}
             />
 
-            {formState.errors._form ? (
+            {formState?.errors._form ? (
               <div className="rounded p-2 bg-red-200 border border-red-400">
                 {formState.errors._form?.join(", ")}
               </div>

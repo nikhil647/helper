@@ -19,8 +19,16 @@ model Category {
   updatedAt DateTime @updatedAt
 }
 
+enum level {
+    Easy
+    Medium
+    Hard   
+}
+
 model CodeSnippet {
   id          String @id @default(cuid())
+  problem_statement String
+  levelSelected level
   code        String
   description String?
 

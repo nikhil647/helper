@@ -8,6 +8,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import paths from "@/paths";
 import { prisma } from "@/lib/prisma";
+import type { Category } from "@prisma/client";
 
 const createCategorySchema = z.object({
   name: z
@@ -25,12 +26,14 @@ interface CreateCategoryFormState {
     description?: string[];
     _form?: string[];
   };
+  isSuccess?: boolean;
 }
 
 export async function createCategory(
   formState: CreateCategoryFormState,
   formData: FormData
 ): Promise<CreateCategoryFormState> {
+  // Validation
   const result = createCategorySchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
@@ -39,9 +42,11 @@ export async function createCategory(
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
+      isSuccess: true,
     };
   }
 
+  // Authentication & Authorization Check
   //   const session = await auth();
   //   if (!session || !session.user) {
   //     return {
@@ -50,47 +55,36 @@ export async function createCategory(
   //       },
   //     };
   //   }
-  const category = await prisma.category.create({
-    data: {
-      categoryName: "Array",
-      description: "simple ds",
-    },
-  });
-  // const user = await prisma.user.findFirst({
-  //   where: {
-  //     email: 'test@test.com'
-  //   }
-  // })
-  console.log("Into the server action", category);
+  // await prisma.category.deleteMany({
+  //   where: {},
+  // });
+  let category: Category;
+  try {
+    category = await prisma.category.create({
+      data: {
+        categoryName: result.data.name,
+        description: result.data.description,
+      },
+    });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      return {
+        errors: {
+          _form: [err.message],
+        },
+      };
+    } else {
+      return {
+        errors: {
+          _form: ["Failed to create post"],
+        },
+      };
+    }
+  }
 
-  return new Promise((resolve) => {
-    name: "login";
-  });
-
-  //   let topic: Topic;
-  //   try {
-  //     topic = await db.topic.create({
-  //       data: {
-  //         slug: result.data.name,
-  //         description: result.data.description,
-  //       },
-  //     });
-  //   } catch (err: unknown) {
-  //     if (err instanceof Error) {
-  //       return {
-  //         errors: {
-  //           _form: [err.message],
-  //         },
-  //       };
-  //     } else {
-  //       return {
-  //         errors: {
-  //           _form: ["Something went wrong"],
-  //         },
-  //       };
-  //     }
-  //   }
-
-  //   revalidatePath("/");
-  //   redirect(paths.topicShow(topic.slug));
+  revalidatePath("/dsa");
+  return {
+    errors: {},
+    isSuccess: true,
+  };
 }
