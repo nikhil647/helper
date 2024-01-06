@@ -1,3 +1,5 @@
+"use client";
+import { useEffect } from "react";
 import {
   ModalHeader,
   ModalBody,
@@ -39,8 +41,13 @@ export default function AddProgram({
 
   const Heading =
     selectedModal === "EditProgram" ? "Edit Program" : "Add Program";
-
   const ButtonTitle = selectedModal === "EditProgram" ? "Update" : "Save";
+
+  useEffect(() => {
+    if (formState.isSuccess) {
+      onClose();
+    }
+  }, [formState]);
 
   return (
     <>
@@ -96,12 +103,21 @@ export default function AddProgram({
             <div className="w-1/2">
               <Textarea
                 name="code"
-                errorMessage={formState?.errors?.levelSelected?.join(", ")}
+                errorMessage={formState?.errors?.code?.join(", ")}
                 className="textAreaCustom"
-                defaultValue={programData?.code}
+                defaultValue={programData?.code || ""}
                 height={"auto"}
                 disableAutosize={true}
                 size="lg"
+              />
+            </div>
+            <div style={{ display: "none" }}>
+              <Input
+                name="codeId"
+                label=""
+                placeholder=""
+                className=""
+                defaultValue={programData === null ? "ADD" : programData?.id}
               />
             </div>
 

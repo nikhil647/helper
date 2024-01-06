@@ -108,6 +108,7 @@ const DsaPage = ({ Category, listOfPrograms }: any) => {
               "bg-gradient-to-t from-zinc-900 to-zinc-900/10 backdrop-opacity-20",
           }}
           size={selectedModal === "AddCategory" ? "md" : "full"}
+          onClose={() => setProgramData(null)}
         >
           <ModalContent>
             {(onClose) =>
@@ -115,7 +116,10 @@ const DsaPage = ({ Category, listOfPrograms }: any) => {
                 <AddCategory onClose={onClose} />
               ) : (
                 <AddProgram
-                  onClose={onClose}
+                  onClose={() => {
+                    setProgramData(null);
+                    onClose();
+                  }}
                   Category={Category}
                   selectedModal={selectedModal}
                   programData={programData}

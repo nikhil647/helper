@@ -20,6 +20,7 @@ const createCategorySchema = z.object({
   levelSelected: z.nativeEnum(levelType),
   code: z.string(),
   CategoryID: z.string(),
+  codeId: z.string(),
 });
 
 interface CreateProgramFormState {
@@ -30,6 +31,7 @@ interface CreateProgramFormState {
     CategoryID?: string[];
     _form?: string[];
     code?: string[];
+    codeId?: string[];
   };
   isSuccess?: boolean;
 }
@@ -38,17 +40,14 @@ export async function createProgram(
   formState: CreateProgramFormState,
   formData: FormData
 ): Promise<CreateProgramFormState> {
-  console.log("Safe Parse++", formData);
-
   const result = createCategorySchema.safeParse({
     problem_statement: formData.get("problem_statement"),
     categorySelected: formData.get("categorySelected"),
     levelSelected: formData.get("levelSelected"),
     CategoryID: formData.get("categorySelected"),
     code: formData.get("code"),
+    codeId: formData.get("codeId"),
   });
-
-  console.log("result -->", result);
 
   if (!result.success) {
     return {
@@ -57,19 +56,30 @@ export async function createProgram(
     };
   }
 
-  console.log("result.data -->", result.data);
-
   let CodeSnippetData: CodeSnippet;
   try {
-    CodeSnippetData = await prisma.codeSnippet.create({
-      data: {
-        problem_statement: result.data.problem_statement,
-        levelSelected: result.data.levelSelected,
-        code: result.data.code,
-        CategoryID: result.data.CategoryID,
-      },
-    });
-    console.log("CodeSnippetData -->", CodeSnippetData);
+    if (result.data.codeId == "ADD") {
+      CodeSnippetData = await prisma.codeSnippet.create({
+        data: {
+          problem_statement: result.data.problem_statement,
+          levelSelected: result.data.levelSelected,
+          code: result.data.code,
+          CategoryID: result.data.CategoryID,
+        },
+      });
+    } else {
+      CodeSnippetData = await prisma.codeSnippet.update({
+        where: {
+          id: result.data.codeId,
+        },
+        data: {
+          problem_statement: result.data.problem_statement,
+          levelSelected: result.data.levelSelected,
+          code: result.data.code,
+          CategoryID: result.data.CategoryID,
+        },
+      });
+    }
   } catch (err: unknown) {
     if (err instanceof Error) {
       return {
