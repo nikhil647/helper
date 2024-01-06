@@ -1,74 +1,70 @@
 "use client";
-import React, { useState, memo } from "react";
+import React, { useState, memo, Dispatch, SetStateAction } from "react";
 import Image from "next/image";
-import {
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Button,
-  useDisclosure,
-} from "@nextui-org/react";
+import { Modal, ModalContent, Button, useDisclosure } from "@nextui-org/react";
 import AddCategory from "../../components/Modal/AddCategory";
 import AddProgram from "../../components/Modal/AddProgram";
-import type { Category } from "@prisma/client";
-
-// Sample data for the tree structure
-const treeData = [
-  {
-    id: 2,
-    name: "Array",
-    children: [
-      {
-        id: 4,
-        name: "WAP to print sum of two numbers",
-        children: [],
-      },
-      {
-        id: 5,
-        name: "WAP to print sum of three numbers",
-        children: [],
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "Heap",
-    children: [],
-  },
-];
 
 // Recursive Tree component
-const TreeNode = ({ node }: { node: any }) => {
+const TreeNode = ({
+  childItems,
+  keyVal,
+  item,
+  onOpen,
+  setSelectModal,
+  setProgramData,
+}: {
+  childItems?: any;
+  keyVal: string;
+  item?: any;
+  onOpen: () => void;
+  setSelectModal: Dispatch<SetStateAction<string>>;
+  setProgramData: Dispatch<SetStateAction<any>>;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = () => {
-    setIsOpen(!isOpen);
+    if (item) {
+      setProgramData(item);
+      setSelectModal("EditProgram");
+      onOpen();
+    } else {
+      setIsOpen(!isOpen);
+    }
   };
 
   return (
     <div>
       <div className="flex justify-between px-3 py-1 bottom-1">
         <div className="flex flex-row flex-1" onClick={toggleOpen}>
-          <Image
-            className={`my-1 mx-1 ${
-              isOpen ? "rotate-90 filter-green" : "filter-yellow"
-            }`}
-            priority
-            src="/Arrow.svg"
-            height={20}
-            width={20}
-            alt=">"
-          />{" "}
-          {node.name}
+          {!item && (
+            <Image
+              className={`my-1 mx-1 ${
+                isOpen ? "rotate-90 filter-green" : "filter-yellow"
+              }`}
+              priority
+              src="/Arrow.svg"
+              height={20}
+              width={20}
+              alt=">"
+            />
+          )}{" "}
+          {keyVal}
         </div>
         <div> Flex End </div>
       </div>
-      {isOpen && (
+
+      {isOpen && childItems && (
         <div style={{ marginLeft: "20px" }}>
-          {node.children.map((childNode: any) => (
-            <TreeNode key={childNode.id} node={childNode} />
+          {childItems.map((childNode: any) => (
+            <TreeNode
+              key={childNode.id}
+              keyVal={childNode.problem_statement}
+              item={childNode}
+              onOpen={onOpen}
+              setSelectModal={setSelectModal}
+              setProgramData={setProgramData}
+            />
           ))}
         </div>
       )}
@@ -76,15 +72,10 @@ const TreeNode = ({ node }: { node: any }) => {
   );
 };
 
-// ToDO  Add Button ANd Form
-// Create Server Action
-// Database CRUD
-// Thats it.
-// Main App component
-
-const DsaPage = ({ Category }: any) => {
+const DsaPage = ({ Category, listOfPrograms }: any) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedModal, setSelectModal] = useState("");
+  const [programData, setProgramData] = useState(null);
 
   return (
     <div>
@@ -123,15 +114,29 @@ const DsaPage = ({ Category }: any) => {
               selectedModal === "AddCategory" ? (
                 <AddCategory onClose={onClose} />
               ) : (
-                <AddProgram onClose={onClose} Category={Category} />
+                <AddProgram
+                  onClose={onClose}
+                  Category={Category}
+                  selectedModal={selectedModal}
+                  programData={programData}
+                />
               )
             }
           </ModalContent>
         </Modal>
       </div>
-      {treeData.map((rootNode) => (
-        <TreeNode key={rootNode.id} node={rootNode} />
-      ))}
+      {Object.entries(listOfPrograms).map((ele) => {
+        return (
+          <TreeNode
+            key={ele[0]}
+            keyVal={ele[0]}
+            childItems={ele[1]}
+            onOpen={onOpen}
+            setSelectModal={setSelectModal}
+            setProgramData={setProgramData}
+          />
+        );
+      })}
     </div>
   );
 };

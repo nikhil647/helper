@@ -26,18 +26,26 @@ const Level = [
   },
 ];
 
-export default function AddProgram({ onClose, Category }: any) {
+export default function AddProgram({
+  onClose,
+  Category,
+  selectedModal,
+  programData,
+}: any) {
   const [formState, action] = useFormState(actions.createProgram, {
     errors: {},
     isSuccess: false,
   });
 
-  console.log("formState -->", formState);
+  const Heading =
+    selectedModal === "EditProgram" ? "Edit Program" : "Add Program";
+
+  const ButtonTitle = selectedModal === "EditProgram" ? "Update" : "Save";
 
   return (
     <>
       <form action={action}>
-        <ModalHeader className="flex flex-col gap-1">Add Programs</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1">{Heading}</ModalHeader>
         <ModalBody>
           <div className="flex flex-row gap-4 p-4 w-full">
             <div className="flex flex-col w-1/2">
@@ -50,6 +58,7 @@ export default function AddProgram({ onClose, Category }: any) {
                 className="mb-4"
                 isInvalid={!!formState?.errors?.problem_statement}
                 errorMessage={formState?.errors?.problem_statement?.join(", ")}
+                defaultValue={programData?.problem_statement}
               />
               <Select
                 name="categorySelected"
@@ -57,6 +66,9 @@ export default function AddProgram({ onClose, Category }: any) {
                 fullWidth
                 className="mb-4"
                 errorMessage={formState?.errors?.categorySelected?.join(", ")}
+                defaultSelectedKeys={
+                  programData ? [programData?.CategoryID] : ""
+                }
               >
                 {Category.map((cat: { id: string; categoryName: string }) => (
                   <SelectItem key={cat.id} value={cat.id}>
@@ -70,6 +82,9 @@ export default function AddProgram({ onClose, Category }: any) {
                 fullWidth
                 className="mb-4"
                 errorMessage={formState?.errors?.levelSelected?.join(", ")}
+                defaultSelectedKeys={
+                  programData ? [programData?.levelSelected] : ""
+                }
               >
                 {Level.map((lev: { label: string; value: string }) => (
                   <SelectItem key={lev.label} value={lev.value}>
@@ -83,6 +98,10 @@ export default function AddProgram({ onClose, Category }: any) {
                 name="code"
                 errorMessage={formState?.errors?.levelSelected?.join(", ")}
                 className="textAreaCustom"
+                defaultValue={programData?.code}
+                height={"auto"}
+                disableAutosize={true}
+                size="lg"
               />
             </div>
 
@@ -97,7 +116,7 @@ export default function AddProgram({ onClose, Category }: any) {
           <Button color="warning" variant="light" onPress={onClose}>
             Close
           </Button>
-          <FormButton>Save</FormButton>
+          <FormButton>{ButtonTitle}</FormButton>
         </ModalFooter>
       </form>
     </>

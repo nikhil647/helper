@@ -87,6 +87,10 @@ header {
     brightness(263%) contrast(54%);
 }
 
+.textAreaCustom textarea {
+  height: -webkit-fill-available !important;
+}
+
 .textAreaCustom > div {
   height: 70vh !important;
 }

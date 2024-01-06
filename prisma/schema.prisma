@@ -1,5 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,40 +8,36 @@ datasource db {
 }
 
 model Category {
-  id          String @id @default(cuid())
+  id           String        @id @default(cuid())
   categoryName String
-  description String?
+  description  String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   codeSnippets CodeSnippet[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum level {
-    Easy
-    Medium
-    Hard   
 }
 
 model CodeSnippet {
-  id          String @id @default(cuid())
+  id                String   @id @default(cuid())
+  code              String
+  description       String?
+  CategoryID        String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  levelSelected     level
   problem_statement String
-  levelSelected level
-  code        String
-  description String?
-
-  CategoryID String
-  category Category @relation(fields: [CategoryID], references: [id])
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  category          Category @relation(fields: [CategoryID], references: [id])
 }
 
 model User {
   id            String    @id @default(cuid())
   name          String
-  email         String   @unique
+  email         String    @unique
   emailVerified DateTime?
   image         String?
 }
 
+enum level {
+  Easy
+  Medium
+  Hard
+}

@@ -39,6 +39,8 @@ export async function createCategory(
     description: formData.get("description"),
   });
 
+  console.log("result -->", result);
+
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
@@ -66,6 +68,7 @@ export async function createCategory(
         description: result.data.description,
       },
     });
+    console.log("category 00>", category);
   } catch (err: unknown) {
     if (err instanceof Error) {
       return {
