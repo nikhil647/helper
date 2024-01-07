@@ -5,7 +5,10 @@ import { Modal, ModalContent, Button, useDisclosure } from "@nextui-org/react";
 import AddCategory from "../../components/Modal/AddCategory";
 import AddProgram from "../../components/Modal/AddProgram";
 import { AiFillDelete } from "react-icons/ai";
-import { handleRemoveCategory, handleRemoveCode } from "@/utils/removeData";
+import {
+  handleRemoveCategory,
+  handleRemoveCode,
+} from "@/serverHelpers/removeData";
 
 // Recursive Tree component
 const TreeNode = ({

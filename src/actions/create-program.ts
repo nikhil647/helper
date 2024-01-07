@@ -3,9 +3,6 @@
 // import type { Topic } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { auth } from "@/auth";
-import { db } from "@/db";
-import paths from "@/paths";
 import { prisma } from "@/lib/prisma";
 import type { CodeSnippet } from "@prisma/client";
 

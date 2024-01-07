@@ -38,16 +38,12 @@ export async function createCategory(
     name: formData.get("name"),
     description: formData.get("description"),
   });
-
-  console.log("result -->", result);
-
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
       isSuccess: true,
     };
   }
-
   // Authentication & Authorization Check
   //   const session = await auth();
   //   if (!session || !session.user) {

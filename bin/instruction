@@ -8,3 +8,8 @@ npx prisma migrate dev
 
 once you made changes in schema.prisa file run this command again.
 npx prisma migrate dev
+
+
+to View database
+npx prisma introspect
+npx prisma studio
