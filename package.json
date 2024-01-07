@@ -13,6 +13,7 @@
     "@auth/prisma-adapter": "1.0.6",
     "@nextui-org/react": "^2.2.9",
     "@prisma/client": "^5.7.1",
+    "@uiw/react-textarea-code-editor": "^3.0.2",
     "bcryptjs": "^2.4.3",
     "framer-motion": "^10.16.5",
     "hamburger-react": "^2.5.0",

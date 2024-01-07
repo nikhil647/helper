@@ -87,6 +87,10 @@ header {
     brightness(263%) contrast(54%);
 }
 
+.w-tc-editor.textAreaCustom {
+  border-radius: 25px;
+}
+
 .textAreaCustom textarea {
   height: -webkit-fill-available !important;
 }

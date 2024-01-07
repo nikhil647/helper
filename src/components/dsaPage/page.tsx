@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Modal, ModalContent, Button, useDisclosure } from "@nextui-org/react";
 import AddCategory from "../../components/Modal/AddCategory";
 import AddProgram from "../../components/Modal/AddProgram";
+import { AiFillDelete } from "react-icons/ai";
+import { handleRemoveCategory, handleRemoveCode } from "@/utils/removeData";
 
 // Recursive Tree component
 const TreeNode = ({
@@ -49,9 +51,19 @@ const TreeNode = ({
               alt=">"
             />
           )}{" "}
-          {keyVal}
+          <span className="ml-1 cursor-pointer">{keyVal}</span>
         </div>
-        <div> Flex End </div>
+        <div>
+          {" "}
+          <AiFillDelete
+            onClick={() =>
+              item
+                ? handleRemoveCode(item?.id)
+                : handleRemoveCategory(childItems[0]?.CategoryID)
+            }
+            style={{ fontSize: "22px", cursor: "pointer" }}
+          />{" "}
+        </div>
       </div>
 
       {isOpen && childItems && (

@@ -12,6 +12,7 @@ import FormButton from "@/components/common/form-button";
 import { Select, SelectItem } from "@nextui-org/react";
 import * as actions from "@/actions";
 import { useFormState } from "react-dom";
+import CodeEditor from "@uiw/react-textarea-code-editor";
 
 const Level = [
   {
@@ -101,7 +102,7 @@ export default function AddProgram({
               </Select>
             </div>
             <div className="w-1/2">
-              <Textarea
+              {/* <Textarea
                 name="code"
                 errorMessage={formState?.errors?.code?.join(", ")}
                 className="textAreaCustom"
@@ -109,6 +110,21 @@ export default function AddProgram({
                 height={"auto"}
                 disableAutosize={true}
                 size="lg"
+              /> */}
+              <CodeEditor
+                defaultValue={programData?.code || ""}
+                name="code"
+                className="textAreaCustom"
+                // value={code}
+                language="js"
+                placeholder="Please enter JS code."
+                // onChange={(evn) => setCode(evn.target.value)}
+                padding={15}
+                style={{
+                  backgroundColor: "#f5f5f5",
+                  fontFamily:
+                    "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+                }}
               />
             </div>
             <div style={{ display: "none" }}>

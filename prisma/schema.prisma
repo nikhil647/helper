@@ -25,7 +25,7 @@ model CodeSnippet {
   updatedAt         DateTime @updatedAt
   levelSelected     level
   problem_statement String
-  category          Category @relation(fields: [CategoryID], references: [id])
+  category          Category @relation(fields: [CategoryID], references: [id], onDelete: Cascade)
 }
 
 model User {
