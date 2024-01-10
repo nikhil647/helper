@@ -2,11 +2,12 @@
 
 // import type { Topic } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { z } from "zod";
-import { auth } from "@/auth";
-import { db } from "@/db";
-import paths from "@/paths";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
+// import { db } from "@/db";
+// import paths from "@/paths";
 import { prisma } from "@/lib/prisma";
 import type { Category } from "@prisma/client";
 
@@ -41,18 +42,19 @@ export async function createCategory(
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
-      isSuccess: true,
+      isSuccess: false,
     };
   }
   // Authentication & Authorization Check
-  //   const session = await auth();
-  //   if (!session || !session.user) {
-  //     return {
-  //       errors: {
-  //         _form: ["You must be signed in to do this."],
-  //       },
-  //     };
-  //   }
+  // const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    return {
+      errors: {
+        _form: ["You must be signed in to do this."],
+      },
+    };
+  }
   // await prisma.category.deleteMany({
   //   where: {},
   // });
@@ -62,6 +64,7 @@ export async function createCategory(
       data: {
         categoryName: result.data.name,
         description: result.data.description,
+        userID: session.Userid,
       },
     });
     console.log("category 00>", category);

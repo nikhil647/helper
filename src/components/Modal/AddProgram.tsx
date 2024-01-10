@@ -73,7 +73,7 @@ export default function AddProgram({
                 label="Select an Category"
                 fullWidth
                 className="mb-4"
-                errorMessage={formState?.errors?.categorySelected?.join(", ")}
+                errorMessage={formState?.errors?.CategoryID?.join(", ")}
                 defaultSelectedKeys={
                   programData ? [programData?.CategoryID] : ""
                 }

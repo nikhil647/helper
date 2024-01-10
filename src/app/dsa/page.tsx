@@ -3,12 +3,18 @@ import { prisma } from "@/lib/prisma";
 import DsaPage from "@/components/dsaPage/page";
 import { Category } from "@prisma/client";
 import { retriveData } from "@/serverHelpers/retriveData";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function dsa() {
+  const session = await getServerSession(authOptions);
   const category: Category[] = await prisma.category.findMany({
-    where: {},
+    where: {
+      userID: session.Userid,
+    },
   });
-  const listOfPrograms = await retriveData();
+  console.log("category -->", category);
+  const listOfPrograms = await retriveData(session.Userid);
   return (
     <div>
       <DsaPage Category={category} listOfPrograms={listOfPrograms} />
