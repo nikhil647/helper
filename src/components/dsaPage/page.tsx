@@ -5,6 +5,7 @@ import { Modal, ModalContent, Button, useDisclosure } from "@nextui-org/react";
 import AddCategory from "../../components/Modal/AddCategory";
 import AddProgram from "../../components/Modal/AddProgram";
 import { AiFillDelete } from "react-icons/ai";
+import { create } from "react-modal-promise";
 import {
   handleRemoveCategory,
   handleRemoveCode,
@@ -27,6 +28,7 @@ const TreeNode = ({
   setProgramData: Dispatch<SetStateAction<any>>;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const yesno = () => new Promise((resolve, reject) => {});
 
   const toggleOpen = () => {
     if (item) {
@@ -59,11 +61,18 @@ const TreeNode = ({
         <div>
           {" "}
           <AiFillDelete
-            onClick={() =>
-              item
-                ? handleRemoveCode(item?.id)
-                : handleRemoveCategory(childItems[0]?.CategoryID)
-            }
+            onClick={async () => {
+              const yes = window.confirm(
+                "Are you sure you want to delete? Click Ok to delete"
+              );
+              if (yes) {
+                if (item) {
+                  handleRemoveCode(item?.id);
+                } else {
+                  handleRemoveCategory(childItems[0]?.CategoryID);
+                }
+              }
+            }}
             style={{ fontSize: "22px", cursor: "pointer" }}
           />{" "}
         </div>
@@ -94,7 +103,7 @@ const DsaPage = ({ Category, listOfPrograms }: any) => {
 
   return (
     <div>
-      <div className="flex flex-row justify-end mr-2 mt-4">
+      <div className="flex flex-row justify-end mr-2 mt-4 mb-4">
         <Button
           className="mr-2"
           color="warning"

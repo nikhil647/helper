@@ -67,7 +67,6 @@ export async function createCategory(
         userID: session.Userid,
       },
     });
-    console.log("category 00>", category);
   } catch (err: unknown) {
     if (err instanceof Error) {
       return {

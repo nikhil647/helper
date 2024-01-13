@@ -46,10 +46,6 @@ export async function createProgram(
     codeId: formData.get("codeId"),
   });
   if (!result.success) {
-    console.log(
-      "result.error.flatten().fieldErrors --<",
-      result.error.flatten().fieldErrors
-    );
     return {
       errors: result.error.flatten().fieldErrors,
       isSuccess: false,
@@ -66,9 +62,7 @@ export async function createProgram(
         },
       };
     }
-    console.log("result.data.codeId --<", result.data.codeId);
     if (result.data.codeId == "ADD") {
-      console.log("result.data.CategoryID --<", result.data.CategoryID);
       CodeSnippetData = await prisma.codeSnippet.create({
         data: {
           problem_statement: result.data.problem_statement,

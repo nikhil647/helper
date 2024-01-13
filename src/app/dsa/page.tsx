@@ -8,13 +8,16 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 async function dsa() {
   const session = await getServerSession(authOptions);
-  const category: Category[] = await prisma.category.findMany({
-    where: {
-      userID: session.Userid,
-    },
-  });
-  console.log("category -->", category);
-  const listOfPrograms = await retriveData(session.Userid);
+  let category,
+    listOfPrograms = [];
+  if (session && session?.Userid) {
+    category = await prisma.category.findMany({
+      where: {
+        userID: session.Userid,
+      },
+    });
+    listOfPrograms = await retriveData(session.Userid);
+  }
   return (
     <div>
       <DsaPage Category={category} listOfPrograms={listOfPrograms} />

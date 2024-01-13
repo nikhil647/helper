@@ -31,7 +31,7 @@ const Level = [
 
 export default function AddProgram({
   onClose,
-  Category,
+  Category = [],
   selectedModal,
   programData,
 }: any) {
@@ -57,7 +57,6 @@ export default function AddProgram({
         <ModalBody>
           <div className="flex flex-row gap-4 p-4 w-full">
             <div className="flex flex-col w-1/2">
-              <h3 className="text-lg mb-4">Create a Program</h3>
               <Input
                 name="problem_statement"
                 label=""

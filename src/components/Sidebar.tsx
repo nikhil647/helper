@@ -15,6 +15,10 @@ const Map = [
     route: "/dsa",
   },
   {
+    pageTitle: "Interview Questions",
+    route: "/interview-questions",
+  },
+  {
     pageTitle: "Resume Builder",
     route: "/resume-builder",
   },
@@ -29,7 +33,7 @@ const Map = [
   {
     pageTitle: "Portfolio",
     route: "/portfolio",
-  }
+  },
 ];
 
 const Sidebar = () => {
