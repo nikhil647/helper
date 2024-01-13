@@ -10,6 +10,7 @@ import {
   handleRemoveCategory,
   handleRemoveCode,
 } from "@/serverHelpers/removeData";
+import ArrowIcon from "../../Logo/Arr.svg";
 
 // Recursive Tree component
 const TreeNode = ({
@@ -50,7 +51,7 @@ const TreeNode = ({
                 isOpen ? "rotate-90 filter-green" : "filter-yellow"
               }`}
               priority
-              src="/Arrow.svg"
+              src={ArrowIcon}
               height={20}
               width={20}
               alt=">"

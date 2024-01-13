@@ -4,10 +4,10 @@ import DsaPage from "@/components/dsaPage/page";
 import { Category } from "@prisma/client";
 import { retriveData } from "@/serverHelpers/retriveData";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "../../lib/authOption";
 
 async function dsa() {
-  const session = await getServerSession(authOptions);
+  const session: any = await getServerSession(authOptions);
   let category,
     listOfPrograms = [];
   if (session && session?.Userid) {

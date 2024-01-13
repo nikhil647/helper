@@ -49,7 +49,15 @@ const Sidebar = () => {
                 className="mb-2"
                 color="warning"
                 variant="bordered"
-                startContent={<UserIcon />}
+                startContent={
+                  <UserIcon
+                    filled={undefined}
+                    size={undefined}
+                    height={undefined}
+                    width={undefined}
+                    label={undefined}
+                  />
+                }
                 onClick={() => router.push(ele.route)}
               >
                 {ele.pageTitle}

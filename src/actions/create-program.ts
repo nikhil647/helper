@@ -6,7 +6,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import type { CodeSnippet } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "../lib/authOption";
 
 enum levelType {
   Easy = "Easy",
@@ -54,7 +54,7 @@ export async function createProgram(
 
   let CodeSnippetData: CodeSnippet;
   try {
-    const session = await getServerSession(authOptions);
+    const session: any = await getServerSession(authOptions);
     if (!session || !session.user) {
       return {
         errors: {

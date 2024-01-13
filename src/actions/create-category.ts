@@ -4,7 +4,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "../lib/authOption";
 
 // import { db } from "@/db";
 // import paths from "@/paths";
@@ -47,7 +47,7 @@ export async function createCategory(
   }
   // Authentication & Authorization Check
   // const session = await getServerSession(authOptions);
-  const session = await getServerSession(authOptions);
+  const session: any = await getServerSession(authOptions);
   if (!session || !session.user) {
     return {
       errors: {
